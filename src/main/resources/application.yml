@@ -1,0 +1,36 @@
+sink:
+  es:
+    index: "dev-data-rss-articles"
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: processing
+          group: json-transport-es
+          binder: rabbit
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              bindingRoutingKey: "json.articles"
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: rabbitmq.rabbitmq.svc.cluster.local
+                port: 5672
+                username: 0pL6v0I1QAhk5iM7EbroT82
+                password: 499Gk8e628R9wv7gxe8X39i
+                virtual-host: /
+  elasticsearch:
+    rest:
+      uris: "elasticsearch-data-data.elasticsearch.svc.cluster.local:9200"
+logging:
+  level:
+    fr:
+      asso:
+        placeholder: DEBUG
